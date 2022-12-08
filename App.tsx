@@ -3,24 +3,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeComponent from "./components/HomeComponent";
 import PlayersComponent from "./components/players/PlayersComponent";
-import GameComponent from "./components/game/GameComponent";
+import GameLoaderComponent from "./components/game/GameLoaderComponent";
 import GameResultComponent from "./components/game/GameResultComponent";
-import ToDoComponent from "./components/game/ToDoComponent";
+import PlayerProvider from "./context/playerContext";
+import GameProvider from "./context/gameContext";
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Home" component={HomeComponent} />
-        <Stack.Screen name="Players" component={PlayersComponent} />
-        <Stack.Screen name="Game" component={GameComponent} />
-        <Stack.Screen name="GameResult" component={GameResultComponent} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GameProvider>
+      <PlayerProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Players"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Home" component={HomeComponent} />
+            <Stack.Screen name="Players" component={PlayersComponent} />
+            <Stack.Screen name="GameLoader" component={GameLoaderComponent} />
+            <Stack.Screen name="GameResult" component={GameResultComponent} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PlayerProvider>
+    </GameProvider>
   );
 }
 
