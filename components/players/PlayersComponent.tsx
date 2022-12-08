@@ -1,29 +1,28 @@
-import { View, Text, StyleSheet } from "react-native";
-import fondExpo from "../assets/Fond-export_3.svg";
+import {View, Text, StyleSheet} from "react-native";
 import {SvgCssUri} from 'react-native-svg';
-import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 
 
+const FondExport = require('../../assetss/FondExport.svg');
+const resolveAssetSource = require("react-native/Libraries/Image/resolveAssetSource");
 
-const svg = resolveAssetSource(fondExpo);
+const svg = resolveAssetSource(FondExport);
 
 function PlayersComponent(){
   return (
     <View>
-      <Text>
         <SvgCssUri style={styles.background} uri={svg.uri} width="105%" height="105%" />
-        <input type text> value="LastName-FirstName"</input>
-        <input type="submit" value="+" ></input>
-      </Text>
+        <input type= "text"> value="LastName-FirstName"</input>
+        <Text>
+            Teste
+        </Text>
     </View>
   )
 }
 
-const styles{
+const styles = StyleSheet.create({
+    background: {
+        top: -30
+    }
 
-.background{
-    top: -30;
-}
-}
-
+});
 export default PlayersComponent;
