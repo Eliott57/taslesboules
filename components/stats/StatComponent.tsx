@@ -18,7 +18,7 @@ function StatComponent(props: Props){
       <SvgCssUri style={styles.card} uri={svgCard.uri} width="90%" height="90%" />
       <View style={styles.containOptions}>
         <OptionComponent height="120" width="140"  title={`${props.percentageA}%`} subTitle={props.question.options[0]} />
-        <OptionComponent height="120" width="140"  title={`${props.percentageA}%`} subTitle={props.question.options[1]} />
+        <OptionComponent height="120" width="140"  title={`${props.percentageB}%`} subTitle={props.question.options[1]} />
       </View>
     </View>
   )
