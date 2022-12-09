@@ -1,15 +1,19 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { IQuestion } from "../../@types/question";
 import { PlayerContext } from "../../context/playerContext";
-import { useContext, useEffect, useState } from "react";
-import { IPlayer, PlayerContextType } from "../../@types/player";
+import { useContext, useEffect } from "react";
+import { PlayerContextType } from "../../@types/player";
 import { GameContext } from "../../context/gameContext";
-import { GameContextType, IGame } from "../../@types/game";
+import { GameContextType } from "../../@types/game";
 import { ITurn } from "../../@types/turn";
 import * as React from "react";
-import { IAnswer } from "../../@types/answer";
 import GameResultComponent from "./GameResultComponent";
-import moment from "moment";
+import OptionsComponent from '../questions/OptionsComponent';
+import OptionButtonComponent from '../questions/OptionButtonComponent';
+import {SvgCssUri} from 'react-native-svg';
+import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
+import BackgroundOption from '../../assets/questions/BackgroundOption.svg';
+import GameTurnResultComponent from "./GameTurnResultComponent";
 
 type Props = {
   questions: IQuestion[]
@@ -17,8 +21,8 @@ type Props = {
 
 function GameComponent(props: Props) {
   const { players } = useContext(PlayerContext) as PlayerContextType;
-  const { game, addGame, updateGame } = useContext(GameContext) as GameContextType;
-  const [time, setTime] = useState(moment());
+  const { game, addGame } = useContext(GameContext) as GameContextType;
+  const svgOption = resolveAssetSource(BackgroundOption);
 
   useEffect(() => {
     const turns: ITurn[] = props.questions.map(question => {
@@ -26,6 +30,7 @@ function GameComponent(props: Props) {
         id: question.id,
         question: question,
         answers: [],
+        loser: undefined
       }
     });
 
@@ -44,79 +49,88 @@ function GameComponent(props: Props) {
     return false;
   }
 
-  const nextTurn = () => {
-    if(game){
-      let updatedGame: IGame = { ...game };
-
-      updatedGame.ended = gameEnded();
-      updatedGame.currentTurnNumber = updatedGame.ended ? updatedGame.currentTurnNumber : updatedGame.currentTurnNumber + 1;
-      updatedGame.currentPlayerId = 1;
-
-      setTime(moment());
-
-      updateGame(updatedGame);
-    }
-  }
-
-  const chooseOption = (optionNumber: number) => {
-    if(game){
-      let updatedGame: IGame = { ...game };
-
-      const answer: IAnswer = {
-        playerId: game.currentPlayerId,
-        optionSelected: optionNumber,
-        responseTime: moment().diff(time)
-      }
-
-      setTime(moment());
-
-      updatedGame.turns[updatedGame.currentTurnNumber - 1].answers.push(answer);
-      updatedGame.currentPlayerId += 1;
-
-      updateGame(updatedGame);
-    }
-  }
-
   if(!game)
     return null;
 
-  if(endOfTurn()){
-    return (
-      <View>
-        <Text>
-          Fin tu tour
-        </Text>
-        <Button
-          onPress={() => nextTurn()}
-          title="Tour suivant"
-          color="#841584"
-        />
-      </View>
-    )
-  }
+  if(endOfTurn())
+    return <GameTurnResultComponent/>
 
   if(gameEnded())
     return <GameResultComponent/>
 
+  const playerName = players.find(player => player.id === game.currentPlayerId)?.name
+
   return (
     <View>
-      <Text>{game.turns[game.currentTurnNumber - 1].question.description}</Text>
-      <Text>{game.turns[game.currentTurnNumber - 1].question.options[0]}</Text>
-      <Text>{game.turns[game.currentTurnNumber - 1].question.options[1]}</Text>
-      <Text>C'est à {players.find(player => player.id === game.currentPlayerId)?.name} de jouer</Text>
-      {game.turns[game.currentTurnNumber - 1].answers.map((answer, index) => <Text key={index}>{answer.optionSelected} {answer.responseTime}</Text>)}
-      <Button
-        onPress={() => chooseOption(0)}
-        title="Option A"
-        color="#841584"
-      />
-      <Button
-        onPress={() => chooseOption(1)}
-        title="Option B"
-        color="#841584"
-      />
+      <OptionsComponent />
+      <Text style={styles.playerName}>C'est à {playerName} de jouer</Text>
+      <View style={styles.optionsComponent}>
+        <OptionButtonComponent optionNumber={0} />
+        <OptionButtonComponent optionNumber={1} />
+      </View>
+
+      <SvgCssUri style={styles.back} uri={svgOption.uri} width="120%" />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  back: {
+    position: 'absolute',
+    top: 0,
+    left: -30,
+    zIndex: -1,
+  },
+  todoComponent: {
+    top: 250
+  },
+  backNextTurn: {
+    position: 'absolute',
+    top: -340,
+    left: 0,
+    zIndex: -1,
+  },
+  playerName: {
+    position: 'absolute',
+    top: 350,
+    left: 103,
+    fontSize: 18,
+    color: 'white',
+    fontWeight: '700',
+    width: 190,
+    zIndex: 1,
+  },
+  optionsComponent: {
+    flex: 1,
+    top: 110,
+    position: 'relative',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    zIndex: 2,
+    left: -30
+  },
+  press: {
+    width: 140,
+    height: 150,
+  },
+  nextTurnButton: {
+    position: 'absolute',
+    width: 150,
+    borderRadius: 25,
+    top: 550,
+    right: 25,
+    backgroundColor: '#AFB7F7',
+    elevation: 20,
+    shadowColor: 'black',
+  },
+  nextTurnText: {
+    color: 'white',
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 18,
+    fontWeight: '700',
+  }
+});
 
 export default GameComponent;

@@ -8,10 +8,10 @@ const svg = resolveAssetSource(CardOptions);
 
 function OptionsComponent(){
   return (
-    <View>
-      <View style={styles.contain}>
-        <OptionComponent style={styles.option} height="120" width="140" title="A." subTitle="la question est une question test a répondre par la joueur" />
-        <OptionComponent style={styles.option} height="120" width="140" title="B." subTitle="la question est une question test a répondre par la joueur" />
+    <View style={styles.contain}>
+      <View style={styles.containOptions}>
+        <OptionComponent style={styles.option} height="120" width="140" optionNumber={0} />
+        <OptionComponent style={styles.option} height="120" width="140" optionNumber={1} />
       </View>
       <SvgCssUri style={styles.back} uri={svg.uri} width="100%" height="100%" />
     </View>
@@ -27,17 +27,19 @@ const styles = StyleSheet.create({
   back: {
     position: 'relative',
     zIndex: 1,
-    top: -220,
-    backgroundColor: 'red'
+    top: 0,
   },
-  contain: {
+  containOptions: {
     flex: 1,
-    top: 210,
+    top: 230,
     position: 'relative',
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
     zIndex: 2,
+  },
+  contain: {
+      height: 335
   }
 });
 export default OptionsComponent;

@@ -7,4 +7,5 @@ export interface ITurn {
   id: number
   question: IQuestion,
   answers: IAnswer[],
+  loser: IPlayer | undefined
 }

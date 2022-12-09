@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import { GameContextType, IGame } from "../@types/game";
 import { ITurn } from "../@types/turn";
+import moment from "moment";
 
 interface Props {
   children?: React.ReactNode;
@@ -16,7 +17,8 @@ const GameProvider: FC<Props> = ({ children }) => {
       turns: turns,
       currentTurnNumber: 1,
       ended: false,
-      currentPlayerId: 1
+      currentPlayerId: 1,
+      currentTime: moment()
     }
 
     setGame(game);

@@ -1,21 +1,33 @@
 import { View, Text, StyleSheet } from "react-native";
-import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
-import { useNavigation } from '@react-navigation/native';
+import { useContext } from "react";
+import { GameContext } from "../../context/gameContext";
+import { GameContextType } from "../../@types/game";
 
-function OptionComponent(props){
-    let style = StyleSheet.create({position: 'relative', backgroundColor: '#AFB7F7', borderRadius: 20, height: 20, width: 60})
-    style.height = parseInt(props.height)
-    style.width = parseInt(props.width)
-    return (
-        <View style={style}>
-            <Text style={styles.title}>
-              {props.title}
-            </Text>
-            <Text style={styles.subTitle}>
-                {props.subTitle}
-            </Text>
-        </View>
-    )
+type Props = {
+  optionNumber: number
+}
+
+function OptionComponent(props: Props){
+  const { game } = useContext(GameContext) as GameContextType;
+
+  let style: StyleSheet.NamedStyles<any> = StyleSheet.create({position: 'relative', backgroundColor: '#AFB7F7', borderRadius: 20, height: 20, width: 60})
+
+  style.height = parseInt(props.height)
+  style.width = parseInt(props.width)
+
+  if(!game)
+    return null;
+
+  return (
+      <View style={style}>
+          <Text style={styles.title}>
+            {props.optionNumber === 0 ? 'A.' : 'B.'}
+          </Text>
+          <Text style={styles.subTitle}>
+            {game.turns[game.currentTurnNumber - 1].question.options[props.optionNumber]}
+          </Text>
+      </View>
+  )
 }
 
 const styles = StyleSheet.create({
