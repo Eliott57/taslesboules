@@ -7,13 +7,13 @@ const svg = resolveAssetSource(ButtonOption);
 
 function OptionButtonComponent(props){
   return (
-    <View>
-      <View style={styles.contain}>
+    <View style={styles.contain}>
+      <View style={styles.containText}>
         <Text style={styles.label}>
             {props.label}
         </Text>
       </View>
-      <SvgCssUri style={styles.back} uri={svg.uri} width="30%" height="57%" />
+      <SvgCssUri style={styles.back} uri={svg.uri} width="100%" height="90%" />
     </View>
   )
 }
@@ -25,9 +25,13 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   contain: {
+      width: 180,
+      height: 180,
+  },
+  containText: {
     position: 'absolute',
-    top: 40,
-    left: 37,
+    top: 55,
+    left: 70,
     zIndex: 5
   },
   back: {
