@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     zIndex: 2,
-    left: -30
   },
   press: {
     width: 140,

@@ -15,8 +15,10 @@ function PlayerInputComponent(){
   const [playerName, setPlayerName] = useState('');
 
   const enterNewPlayer = () => {
-      addPlayer(playerName);
-      setPlayerName('');
+      if(players.length < 8) {
+        addPlayer(playerName);
+        setPlayerName('');
+      }
   }
 
   return (
@@ -27,7 +29,7 @@ function PlayerInputComponent(){
         value={playerName}
       />
 
-      <SvgCssUri style={styles.back} uri={svg.uri} onPress={enterNewPlayer} width="10%" />
+      <SvgCssUri uri={svg.uri} onPress={enterNewPlayer} width="10%" />
 
 {/*       <Button */}
 {/*         onPress={enterNewPlayer} */}
