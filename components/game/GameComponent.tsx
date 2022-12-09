@@ -12,6 +12,7 @@ import GameResultComponent from "./GameResultComponent";
 import OptionsComponent from '../questions/OptionsComponent.tsx';
 import OptionButtonComponent from '../questions/OptionButtonComponent.tsx';
 import ToDoComponent from './ToDoComponent.tsx';
+import TurnResultComponent from './TurnResultComponent.tsx';
 import {SvgCssUri} from 'react-native-svg';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import { useNavigation } from '@react-navigation/native';
@@ -82,12 +83,20 @@ function GameComponent(props: Props) {
     }
   }
 
+
   if(!game)
     return null;
+
+  const optionA = game.turns[game.currentTurnNumber - 1].question.options[0];
+  const optionB = game.turns[game.currentTurnNumber - 1].question.options[1];
+  const playerName = players.find(player => player.id === game.currentPlayerId)?.name
 
   if(endOfTurn()){
     return (
       <View>
+        <View>
+            <TurnResultComponent optionA={optionA} optionB={optionB} playersA={["Toto", "Tata"]} playersB={["TEst", "Jhon Doe"]}/>
+        </View>
         <View style={styles.todoComponent}>
             <ToDoComponent label="test de todo a faire"/>
         </View>
@@ -103,37 +112,16 @@ function GameComponent(props: Props) {
   if(gameEnded())
     return <GameResultComponent/>
 
-  const optionA = game.turns[game.currentTurnNumber - 1].question.options[0];
-  const optionB = game.turns[game.currentTurnNumber - 1].question.options[1];
-  const playerName = players.find(player => player.id === game.currentPlayerId)?.name
-
   return (
     <View>
-{/*       <Text>{game.turns[game.currentTurnNumber - 1].question.description}</Text> */}
-{/*       <Text>{game.turns[game.currentTurnNumber - 1].question.options[0]}</Text> */}
-{/*       <Text>{game.turns[game.currentTurnNumber - 1].question.options[1]}</Text> */}
-{/*       <Text>C'est à {players.find(player => player.id === game.currentPlayerId)?.name} de jouer</Text> */}
-{/*       {game.turns[game.currentTurnNumber - 1].answers.map((answer, index) => <Text key={index}>{answer.optionSelected}</Text>)} */}
-
-{/*       <Button */}
-{/*         onPress={() => chooseOption(0)} */}
-{/*         title="Option A" */}
-{/*         color="#841584" */}
-{/*       /> */}
-{/*       <Button */}
-{/*         onPress={() => chooseOption(1)} */}
-{/*         title="Option B" */}
-{/*         color="#841584" */}
-{/*       /> */}
-
       <OptionsComponent optionA={optionA} optionB={optionB} />
       <Text style={styles.playerName}>C'est à {playerName} de jouer</Text>
       <View style={styles.optionsConponent}>
         <Pressable style={styles.press} onPress={() => chooseOption(0)}>
             <OptionButtonComponent label="A" />
         </Pressable>
-        <Pressable style={styles.press} onPress={() => chooseOption(0)}>
-            <OptionButtonComponent onPress={() => chooseOption(1)} label="B" />
+        <Pressable style={styles.press} onPress={() => chooseOption(1)}>
+            <OptionButtonComponent label="B" />
         </Pressable>
       </View>
 
@@ -150,7 +138,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   todoComponent: {
-    top: 250
+    top: 20
   },
   backNextTurn: {
     position: 'absolute',
@@ -184,10 +172,10 @@ const styles = StyleSheet.create({
   },
   nextTurnButton: {
     position: 'absolute',
-    width: 150,
+    width: 130,
     borderRadius: 25,
-    top: 550,
-    right: 25,
+    top: 590,
+    right: 42,
     backgroundColor: '#AFB7F7',
     elevation: 20,
     shadowColor: 'black',

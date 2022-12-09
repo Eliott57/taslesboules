@@ -11,19 +11,20 @@ function ToDoComponent(props){
       <View style={styles.containText}>
         <Text style={styles.txt}>{props.label}</Text>
       </View>
-      <SvgCssUri style={styles.back} uri={svgTodoNextTurn.uri} width="100%" height="100%" />
+      <SvgCssUri style={styles.back} uri={svgTodoNextTurn.uri} width="93%" height="100%" />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   back: {
-    top: 0,
-    left: 5,
+    top: 10,
+    left: 0,
     zIndex: 10,
   },
   contain: {
-    height: 300
+    height: 300,
+    left: 20,
   },
   containText: {
     position: 'absolute',
