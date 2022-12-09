@@ -9,6 +9,7 @@ import { ITurn } from "../../@types/turn";
 import * as React from "react";
 import { IAnswer } from "../../@types/answer";
 import GameResultComponent from "./GameResultComponent";
+import moment from "moment";
 
 type Props = {
   questions: IQuestion[]
@@ -17,6 +18,7 @@ type Props = {
 function GameComponent(props: Props) {
   const { players } = useContext(PlayerContext) as PlayerContextType;
   const { game, addGame, updateGame } = useContext(GameContext) as GameContextType;
+  const [time, setTime] = useState(moment());
 
   useEffect(() => {
     const turns: ITurn[] = props.questions.map(question => {
@@ -50,6 +52,8 @@ function GameComponent(props: Props) {
       updatedGame.currentTurnNumber = updatedGame.ended ? updatedGame.currentTurnNumber : updatedGame.currentTurnNumber + 1;
       updatedGame.currentPlayerId = 1;
 
+      setTime(moment());
+
       updateGame(updatedGame);
     }
   }
@@ -60,8 +64,11 @@ function GameComponent(props: Props) {
 
       const answer: IAnswer = {
         playerId: game.currentPlayerId,
-        optionSelected: optionNumber
+        optionSelected: optionNumber,
+        responseTime: moment().diff(time)
       }
+
+      setTime(moment());
 
       updatedGame.turns[updatedGame.currentTurnNumber - 1].answers.push(answer);
       updatedGame.currentPlayerId += 1;
@@ -97,7 +104,7 @@ function GameComponent(props: Props) {
       <Text>{game.turns[game.currentTurnNumber - 1].question.options[0]}</Text>
       <Text>{game.turns[game.currentTurnNumber - 1].question.options[1]}</Text>
       <Text>C'est à {players.find(player => player.id === game.currentPlayerId)?.name} de jouer</Text>
-      {game.turns[game.currentTurnNumber - 1].answers.map((answer, index) => <Text key={index}>{answer.optionSelected}</Text>)}
+      {game.turns[game.currentTurnNumber - 1].answers.map((answer, index) => <Text key={index}>{answer.optionSelected} {answer.responseTime}</Text>)}
       <Button
         onPress={() => chooseOption(0)}
         title="Option A"

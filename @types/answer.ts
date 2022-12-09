@@ -3,5 +3,6 @@ import { IPlayer } from "./player";
 
 export interface IAnswer {
   playerId: number,
-  optionSelected: number
+  optionSelected: number,
+  responseTime: number
 }
