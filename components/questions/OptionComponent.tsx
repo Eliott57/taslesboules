@@ -4,7 +4,9 @@ import { GameContext } from "../../context/gameContext";
 import { GameContextType } from "../../@types/game";
 
 type Props = {
-  optionNumber: number
+  optionNumber: number | null,
+  title: string | null,
+  subTitle: string | null
 }
 
 function OptionComponent(props: Props){
@@ -12,19 +14,16 @@ function OptionComponent(props: Props){
 
   let style: StyleSheet.NamedStyles<any> = StyleSheet.create({position: 'relative', backgroundColor: '#AFB7F7', borderRadius: 20, height: 20, width: 60})
 
-  style.height = parseInt(props.height)
-  style.width = parseInt(props.width)
-
-  if(!game)
-    return null;
+  style.height = parseInt(props.height);
+  style.width = parseInt(props.width);
 
   return (
       <View style={style}>
           <Text style={styles.title}>
-            {props.optionNumber === 0 ? 'A.' : 'B.'}
+            {props.title ? props.title : props.optionNumber === 0 ? 'A.' : 'B.'}
           </Text>
           <Text style={styles.subTitle}>
-            {game.turns[game.currentTurnNumber - 1].question.options[props.optionNumber]}
+            {props.subTitle ? props.subTitle : game?.turns[game.currentTurnNumber - 1].question.options[props.optionNumber]}
           </Text>
       </View>
   )
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
   title: {
     zIndex: 10,
     position: 'relative',
-    width: 30,
+    width: 100,
     top: 10,
     left: 25,
     fontSize: 16,

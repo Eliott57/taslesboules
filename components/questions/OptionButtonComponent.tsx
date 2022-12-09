@@ -5,7 +5,7 @@ import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 import { GameContextType, IGame } from "../../@types/game";
 import { IAnswer } from "../../@types/answer";
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GameContext } from "../../context/gameContext";
 import questionsStore from "../../store/QuestionsStore";
 
@@ -39,14 +39,16 @@ function OptionButtonComponent(props: Props){
   }
 
   return (
-    <Pressable style={styles.contain} onPress={() => chooseOption()}>
-      <View style={styles.containText}>
-        <Text style={styles.label}>
+    <View>
+      <Pressable style={styles.contain} onPress={() => chooseOption()}>
+        <View style={styles.containText}>
+          <Text style={styles.label}>
             {props.optionNumber === 0 ? 'A' : 'B'}
-        </Text>
-      </View>
-      <SvgCssUri style={styles.back} uri={svg.uri} width="100%" height="90%" />
-    </Pressable>
+          </Text>
+        </View>
+        <SvgCssUri style={styles.back} uri={svg.uri} width="100%" height="90%" />
+      </Pressable>
+    </View>
   )
 }
 

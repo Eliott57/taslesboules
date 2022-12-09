@@ -16,8 +16,6 @@ const PlayerProvider: FC<Props> = ({ children }) => {
       name: playerName
     }
 
-    console.log(newPlayer)
-
     setPlayers([...players, newPlayer]);
   }
 

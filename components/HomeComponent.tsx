@@ -6,9 +6,7 @@ import {SvgCssUri} from 'react-native-svg';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from "react";
-import { IGame } from "../@types/game";
 import LoaderComponent from "./helpers/LoaderComponent";
-import GameTurnResultComponent from "./game/GameTurnResultComponent";
 import * as React from "react";
 
 const svg = resolveAssetSource(Home);
@@ -29,7 +27,7 @@ function HomeComponent(){
     <>
       {loading ? <LoaderComponent/> : null}
       <View style={{opacity: loading ? 0 : 1, height: loading ? 0 : '100%'}}>
-        <Text style={styles.subTitle}>It is a long established fact that a reader will be distracted by the readable content of a page when looking at</Text>
+        <Text style={styles.subTitle}>de t'ennuyer à Noël à table en famille ? Ce jeu est fait pour toi !</Text>
         <SvgCssUri onPress={() => navigation.navigate('Players') } style={styles.btnPlay} width="60%" height="60%" uri={svgButPlay.uri} />
         <SvgCssUri onPress={() => navigation.navigate('StatsLoader') }  style={styles.btnHall} width="22%" height="22%" uri={svgButHall.uri} />
         <SvgCssUri style={styles.back} uri={svg.uri} width="105%" height="105%" />
@@ -47,7 +45,7 @@ const styles = StyleSheet.create({
   },
   btnHall: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 10,
     right: 20,
     zIndex: 1,
   },
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     color : 'white',
     width: 310,
     textAlign: 'center',
-    top: 130,
+    top: 115,
     left: 50,
     fontSize: 11,
     lineHeight: 15,

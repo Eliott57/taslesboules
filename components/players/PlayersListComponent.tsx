@@ -10,30 +10,42 @@ export function PlayersListComponent(){
   const { players } = useContext(PlayerContext) as PlayerContextType;
 
   return(
-    <View style={styles.inputsComponent}>
-      {players.filter(player => player.id <= 4).map(player =>
-        <Text key={player.id}>
-          <PlayerListComponent id={player.id} name={player.name}/>
-        </Text>
-      )}
+    <View style={styles.contain}>
+      <View style={styles.containPlayers}>
+        { players.filter(player => player.id <= 4).map(player =>
+          <Text key={player.id}>
+            <PlayerListComponent id={player.id} name={player.name}/>
+          </Text>
+        )}
+      </View>
+      <View style={styles.containPlayers}>
+        { players.filter(player => player.id > 4).map(player =>
+          <Text key={player.id}>
+            <PlayerListComponent id={player.id} name={player.name}/>
+          </Text>
+        )}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  inputsComponent: {
-    borderWidth: 2,
-    borderRadius: 20,
+  contain: {
     padding: 5,
     paddingLeft: 10,
     backgroundColor: '#6D81BD',
-    borderColor: 'green',
-
     flex: 1,
     position: 'relative',
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     zIndex: 2,
+  },
+  containPlayers: {
+    flex: 1,
+    flexDirection: "column",
+    height: 200,
+    alignItems: "center",
+    justifyContent: "space-evenly",
   }
 });

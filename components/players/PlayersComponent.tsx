@@ -1,4 +1,4 @@
-import { Button, View, StyleSheet, Pressable, Text } from "react-native";
+import { Button, View, StyleSheet, Pressable, Text, Alert } from "react-native";
 import PlayerInputComponent from "./PlayerInputComponent";
 import * as React from "react";
 import { PlayersListComponent } from "./PlayersListComponent";
@@ -15,6 +15,25 @@ function PlayersComponent(){
   const navigation = useNavigation();
   const { players } = useContext(PlayerContext);
 
+  const goToGame = () => {
+    if(players.length < 3){
+      Alert.alert(
+        "Il faut être plus de 3 !",
+        "Moins de 3 à table à Noël ? Vous en avez de la chance...",
+        [
+          {
+            style: "cancel",
+          },
+        ],
+        {
+          cancelable: true,
+        }
+      )
+    }else{
+      navigation.navigate('GameLoader');
+    }
+  }
+
   return (
     <View>
       <View style={styles.input}>
@@ -23,7 +42,7 @@ function PlayersComponent(){
       <View style={styles.listPlayers}>
         <PlayersListComponent/>
       </View>
-      <Pressable style={styles.submit} onPress={() => navigation.navigate('GameLoader')} disabled={players.length < 3}>
+      <Pressable style={styles.submit} onPress={() => goToGame()}>
         <Text style={styles.text}>Valider</Text>
       </Pressable>
       <SvgCssUri style={styles.back} uri={svg.uri} width="110%" />

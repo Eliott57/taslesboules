@@ -10,8 +10,8 @@ function OptionsComponent(){
   return (
     <View style={styles.contain}>
       <View style={styles.containOptions}>
-        <OptionComponent style={styles.option} height="120" width="140" optionNumber={0} />
-        <OptionComponent style={styles.option} height="120" width="140" optionNumber={1} />
+        <OptionComponent height="110" width="150" optionNumber={0} />
+        <OptionComponent height="110" width="150" optionNumber={1} />
       </View>
       <SvgCssUri style={styles.back} uri={svg.uri} width="100%" height="100%" />
     </View>
@@ -19,11 +19,6 @@ function OptionsComponent(){
 }
 
 const styles = StyleSheet.create({
-  option: {
-    position: 'relative',
-    width: 60,
-    height: 30
-  },
   back: {
     position: 'relative',
     zIndex: 1,

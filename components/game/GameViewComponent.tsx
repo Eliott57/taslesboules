@@ -10,7 +10,6 @@ import { PlayerContext } from "../../context/playerContext";
 import { PlayerContextType } from "../../@types/player";
 import { GameContext } from "../../context/gameContext";
 import { GameContextType } from "../../@types/game";
-import { ITurn } from "../../@types/turn";
 
 function GameViewComponent(){
   const { players } = useContext(PlayerContext) as PlayerContextType;
