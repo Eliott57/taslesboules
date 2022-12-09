@@ -8,10 +8,12 @@ export interface IGame {
   currentTurnNumber: number;
   currentPlayerId: number;
   currentTime: Moment;
+  loading: boolean
 }
 
 export type GameContextType = {
   game: IGame | null,
   addGame: (turns: ITurn[]) => void;
   updateGame: (game: IGame) => void;
+  toggleLoading: () => void;
 };

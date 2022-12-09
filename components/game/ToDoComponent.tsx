@@ -25,10 +25,11 @@ function ToDoComponent(){
 
   const getLoseAnswers = () : IAnswer[] => {
     const answers = getAnswers();
-    const optionAAnswers = answers?.filter(answer => answer.optionSelected === 0);
-    const optionBAnswers = answers?.filter(answer => answer.optionSelected === 1);
 
-    return optionAAnswers.length < optionBAnswers.length ? optionAAnswers : optionAAnswers.length > optionBAnswers.length ? optionBAnswers : answers;
+    const optionAAnswers = answers.filter(answer => answer.optionSelected === 0);
+    const optionBAnswers = answers.filter(answer => answer.optionSelected === 1);
+
+    return optionAAnswers.length && optionAAnswers.length < optionBAnswers.length ? optionAAnswers : optionBAnswers.length && optionAAnswers.length > optionBAnswers.length ? optionBAnswers : answers;
   }
 
   const getSlowestAnswer = () : IAnswer => {
@@ -62,24 +63,25 @@ function ToDoComponent(){
         <Text style={styles.title}>{game.turns[game.currentTurnNumber - 1].loser?.name} t'as les boules... voici ton gage : </Text>
         <Text style={styles.txt}>{game.turns[game.currentTurnNumber - 1].question.toDo}</Text>
       </View>
-      <SvgCssUri style={styles.back} uri={svgTodoNextTurn.uri} width="100%" height="100%" />
+      <SvgCssUri style={styles.back} uri={svgTodoNextTurn.uri} width="93%" height="100%" />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   back: {
-    top: 0,
-    left: 5,
+    top: 10,
+    left: 0,
     zIndex: 10,
   },
   contain: {
-    height: 300
+    height: 300,
+    left: 20,
   },
   containText: {
     position: 'absolute',
-    top: 125,
-    left: 64,
+    top: 135,
+    left: 35,
     height: 100,
     zIndex: 15,
     width: 300
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
   txt: {
     color: "white",
     fontSize: 15,
+    top: 15,
     fontWeight: '400',
   }
 });

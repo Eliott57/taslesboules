@@ -7,6 +7,7 @@ import { IAnswer } from "../../@types/answer";
 import moment from "moment";
 import { useContext } from "react";
 import { GameContext } from "../../context/gameContext";
+import questionsStore from "../../store/QuestionsStore";
 
 const svg = resolveAssetSource(ButtonOption);
 
@@ -17,7 +18,7 @@ type Props = {
 function OptionButtonComponent(props: Props){
   const { game, updateGame } = useContext(GameContext) as GameContextType;
 
-  const chooseOption = () => {
+  const chooseOption = async () => {
     if(game){
       let updatedGame: IGame = { ...game };
 
@@ -32,6 +33,8 @@ function OptionButtonComponent(props: Props){
       updatedGame.currentPlayerId += 1;
 
       updateGame(updatedGame);
+
+      await questionsStore._storeData(updatedGame.turns[updatedGame.currentTurnNumber - 1].question.id, props.optionNumber);
     }
   }
 

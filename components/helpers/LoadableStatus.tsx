@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Text, View} from 'react-native';
+import LoaderComponent from "./LoaderComponent";
 
 type Props<T> = {
   promise: Promise<Response>;
@@ -15,16 +16,7 @@ export enum LOADABLE_STATUS {
 }
 
 function Loadable(props: {customText?: string}) {
-  return (
-    <>
-      <View style={{flex: 1}}>
-        <ActivityIndicator size="large" />
-      </View>
-      <Text>
-        {props.customText ? props.customText : 'Chargement en cours...'}
-      </Text>
-    </>
-  );
+  return <LoaderComponent/>
 }
 
 export function LoadableStatus<T>(props: Props<T>) {

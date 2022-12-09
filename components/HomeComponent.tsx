@@ -5,21 +5,36 @@ import HomeHall from '../assets/Home-hall.svg';
 import {SvgCssUri} from 'react-native-svg';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from "react";
+import { IGame } from "../@types/game";
+import LoaderComponent from "./helpers/LoaderComponent";
+import GameTurnResultComponent from "./game/GameTurnResultComponent";
+import * as React from "react";
 
 const svg = resolveAssetSource(Home);
 const svgButPlay = resolveAssetSource(HomePlay);
 const svgButHall = resolveAssetSource(HomeHall);
 
 function HomeComponent(){
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   return (
-    <View>
+    <>
+      {loading ? <LoaderComponent/> : null}
+      <View style={{opacity: loading ? 0 : 1, height: loading ? 0 : '100%'}}>
         <Text style={styles.subTitle}>It is a long established fact that a reader will be distracted by the readable content of a page when looking at</Text>
         <SvgCssUri onPress={() => navigation.navigate('Players') } style={styles.btnPlay} width="60%" height="60%" uri={svgButPlay.uri} />
-        <SvgCssUri onPress={() => navigation.navigate('Stats') }  style={styles.btnHall} width="22%" height="22%" uri={svgButHall.uri} />
+        <SvgCssUri onPress={() => navigation.navigate('StatsLoader') }  style={styles.btnHall} width="22%" height="22%" uri={svgButHall.uri} />
         <SvgCssUri style={styles.back} uri={svg.uri} width="105%" height="105%" />
-    </View>
+      </View>
+    </>
   )
 }
 

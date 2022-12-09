@@ -11,9 +11,9 @@ export function PlayersListComponent(){
 
   return(
     <View style={styles.inputsComponent}>
-      {players.map(player =>
+      {players.filter(player => player.id <= 4).map(player =>
         <Text key={player.id}>
-          <PlayerListComponent index={player.id} txt={player.name}/>
+          <PlayerListComponent id={player.id} name={player.name}/>
         </Text>
       )}
     </View>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 
     flex: 1,
     position: 'relative',
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
     zIndex: 2,

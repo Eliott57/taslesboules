@@ -7,7 +7,7 @@ import GameLoaderComponent from "./components/game/GameLoaderComponent";
 import GameResultComponent from "./components/game/GameResultComponent";
 import PlayerProvider from "./context/playerContext";
 import GameProvider from "./context/gameContext";
-import StatsComponent from "./components/stats/StatsComponent";
+import StatsLoaderComponent from "./components/stats/StatsLoaderComponent";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +24,7 @@ function App() {
             <Stack.Screen name="Players" component={PlayersComponent} />
             <Stack.Screen name="GameLoader" component={GameLoaderComponent} />
             <Stack.Screen name="GameResult" component={GameResultComponent} />
-            <Stack.Screen name="Stats" component={StatsComponent} />
+            <Stack.Screen name="StatsLoader" component={StatsLoaderComponent} />
           </Stack.Navigator>
         </NavigationContainer>
       </PlayerProvider>

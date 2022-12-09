@@ -1,15 +1,15 @@
 import { Text, View, Pressable, StyleSheet } from "react-native";
 import * as React from "react";
-import { useContext } from "react";
-import { PlayerContext } from "../../context/playerContext";
-import { PlayerContextType } from "../../@types/player";
 
-export function PlayerListComponent(props){
-  const { players } = useContext(PlayerContext) as PlayerContextType;
+type Props = {
+  id: number,
+  name: string
+}
 
+export function PlayerListComponent(props: Props){
   return(
     <View style={styles.label}>
-        <Text style={styles.text}>{props.index} {props.txt}</Text>
+        <Text style={styles.text}>{props.id} {props.name}</Text>
     </View>
   )
 }

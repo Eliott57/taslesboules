@@ -7,7 +7,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const GameContext = React.createContext<GameContextType>({game: null, addGame: () => {}, updateGame: () => {}});
+export const GameContext = React.createContext<GameContextType>({game: null, addGame: () => {}, updateGame: () => {}, toggleLoading: () => {}});
 
 const GameProvider: FC<Props> = ({ children }) => {
   const [game, setGame] = useState<IGame | null>(null);
@@ -18,7 +18,8 @@ const GameProvider: FC<Props> = ({ children }) => {
       currentTurnNumber: 1,
       ended: false,
       currentPlayerId: 1,
-      currentTime: moment()
+      currentTime: moment(),
+      loading: false
     }
 
     setGame(game);
@@ -28,8 +29,22 @@ const GameProvider: FC<Props> = ({ children }) => {
     setGame(updatedGame);
   }
 
+  const toggleLoading = () => {
+    if(game){
+      let updatedGame: IGame = { ...game };
+      updatedGame.loading = true;
+      updateGame(updatedGame);
+
+      setTimeout(() => {
+        updatedGame = { ...updatedGame };
+        updatedGame.loading = false;
+        updateGame(updatedGame);
+      }, 1000);
+    }
+  }
+
   return (
-    <GameContext.Provider value={{ game, addGame, updateGame }}>
+    <GameContext.Provider value={{ game, addGame, updateGame, toggleLoading }}>
       {children}
     </GameContext.Provider>
   );

@@ -4,30 +4,39 @@ import { SvgCssUri } from "react-native-svg";
 import * as React from "react";
 import { GameContextType, IGame } from "../../@types/game";
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GameContext } from "../../context/gameContext";
 import resolveAssetSource from "react-native/Libraries/Image/resolveAssetSource";
 import BackgroundNextTurn from "../../assets/nextTurn/BackgroundNextTurn.svg";
+import TurnResultComponent from "./TurnResultComponent";
 
 function GameTurnResultComponent(){
-  const { game, updateGame } = useContext(GameContext) as GameContextType;
+  const { game, updateGame, toggleLoading } = useContext(GameContext) as GameContextType;
   const svgNextTurn = resolveAssetSource(BackgroundNextTurn);
 
+  if(!game)
+    return null;
+
+  useEffect(() => {
+    toggleLoading();
+  }, []);
+
   const nextTurn = () => {
-    if(game){
-      let updatedGame: IGame = { ...game };
+    let updatedGame: IGame = { ...game };
 
-      updatedGame.ended = game?.currentTurnNumber === game?.turns.length;
-      updatedGame.currentTurnNumber = updatedGame.ended ? updatedGame.currentTurnNumber : updatedGame.currentTurnNumber + 1;
-      updatedGame.currentPlayerId = 1;
-      updatedGame.currentTime = moment();
+    updatedGame.ended = game.currentTurnNumber === game.turns.length;
+    updatedGame.currentTurnNumber = updatedGame.ended ? updatedGame.currentTurnNumber : updatedGame.currentTurnNumber + 1;
+    updatedGame.currentPlayerId = 1;
+    updatedGame.currentTime = moment();
 
-      updateGame(updatedGame);
-    }
+    updateGame(updatedGame);
   }
 
   return(
-    <View>
+    <View style={{opacity: game.loading ? 0 : 1, height: game.loading ? 0 : '100%'}}>
+      <View>
+        <TurnResultComponent/>
+      </View>
       <View style={styles.todoComponent}>
         <ToDoComponent/>
       </View>
@@ -41,14 +50,8 @@ function GameTurnResultComponent(){
 }
 
 const styles = StyleSheet.create({
-  back: {
-    position: 'absolute',
-    top: 0,
-    left: -30,
-    zIndex: -1,
-  },
   todoComponent: {
-    top: 250
+    top: 20
   },
   backNextTurn: {
     position: 'absolute',
@@ -82,13 +85,14 @@ const styles = StyleSheet.create({
   },
   nextTurnButton: {
     position: 'absolute',
-    width: 150,
+    width: 130,
     borderRadius: 25,
-    top: 550,
-    right: 25,
+    top: 590,
+    right: 42,
     backgroundColor: '#AFB7F7',
     elevation: 20,
     shadowColor: 'black',
+    zIndex: 10
   },
   nextTurnText: {
     color: 'white',
